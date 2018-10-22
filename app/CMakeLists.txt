@@ -5,17 +5,20 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_VERBOSE_MAKEFILE on)
+set(libs "${CMAKE_SOURCE_DIR}/src/main/jniLibs")
+include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 
-######## OpenCV #######
+################## IMPORT #################
 
-# External library
-set( OpenCV_DIR /home/user/OpenCV-android-sdk/sdk/native/jni )
-find_package( OpenCV REQUIRED )
+add_library(libopencv_java3 SHARED IMPORTED )
+set_target_properties(libopencv_java3 PROPERTIES
+        IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_java3.so")
 
-include_directories(${OpenCV_INCLUDE_DIRS})
+################## IMPORT end #################
 
-######## end OpenCV #######
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -fexceptions -frtti")
+
 
 include_directories(src/main/cpp/)
 
@@ -38,9 +41,7 @@ find_library( # Sets the name of the path variable.
         log)
 
 target_link_libraries( # Specifies the target library.
-        yolo
+        yolo android log
 
-        # Links the target library to the log library
-        # included in the NDK.
-        ${OpenCV_LIBS}
+        libopencv_java3 #used for java sdk
         ${log-lib} )

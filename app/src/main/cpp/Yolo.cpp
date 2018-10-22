@@ -16,8 +16,8 @@ Yolo::Yolo(const cv::String& cfg_file,
     readClassNames(classNames_file);
 
     try {
-        std::cout << "Model cfg: " << cfg_file << std::endl;
-        std::cout << "Model weigth: " << weights_file << std::endl;
+        //std::cout << "Model cfg: " << cfg_file << std::endl;
+        //std::cout << "Model weigth: " << weights_file << std::endl;
         //import the model of the network
         my_net = cv::dnn::readNetFromDarknet(cfg_file, weights_file);
         my_net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);

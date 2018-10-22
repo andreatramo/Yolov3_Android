@@ -1,10 +1,18 @@
 package uk.lcas.andreatramo.yolov3_objectdetector;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import org.opencv.imgcodecs.Imgcodecs;
+
+import android.content.res.AssetManager;
+
 
 import org.opencv.core.Mat;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,20 +29,27 @@ public class MainActivity extends AppCompatActivity {
 
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText("I'm trying to use YOLO");
+        tv.setText("Noooooo!!!");
 
-        String cfg_file = "/yolo_config/yolov3.cfg";
-        String weigth_file = "/yolo_config/yolov3.weigth";
+        File file = Environment.getExternalStorageDirectory();
+        String root = file.getAbsolutePath();
+        String path = "./assets/yolo_config/yolov3-tiny.cfg";
+        tv.setText(path);
+
+
+        String cfg_file = "./assets/yolo_config/yolov3-tiny.cfg";
+        String weigth_file = root + "/assets/yolo_config/yolov3-tiny.weigth";
         float conf_thr = 0.5f;
-        String classNames_file = "/yolo_config/coco.names";
+        String classNames_file = root + "/assets/yolo_config/coco.names";
 
         create(cfg_file, weigth_file, conf_thr, classNames_file);
 
-        Mat input_frame = new Mat();
+        Mat input_frame = Imgcodecs.imread(root + "/assets/data/aeroplane.jpg"); //the frame to send to classify
+        Imgcodecs.imwrite(root + "/assets/data/aeroplane_2.jpg", input_frame);
+
         Mat output_frame = new Mat();
 
-        classify(input_frame.getNativeObjAddr(), output_frame.getNativeObjAddr());
-
+        //classify(input_frame.getNativeObjAddr(), output_frame.getNativeObjAddr());
 
     }
 

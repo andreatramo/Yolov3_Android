@@ -18,13 +18,12 @@ JULAYOM(void, create)(JNIEnv * env, jobject obj,
     const float conf_thr = conf_t;
     const cv::String classNames_file = jstr2ostr(env, obj, classNames);
 
-    yolo_classifier = new Yolo(cfg_file,weights_file, conf_thr, classNames_file);
+    yolo_classifier = new Yolo(cfg_file, weights_file, conf_thr, classNames_file);
 
 }
 
 JULAYOM(void, classify)(JNIEnv * env, jobject obj,
                            jlong input_frame, jlong output_frame){
-
 
     cv::Mat& in_frame = *(cv::Mat*) input_frame;
     cv::Mat out_frame = yolo_classifier->classify(in_frame);
